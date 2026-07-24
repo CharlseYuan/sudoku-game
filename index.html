@@ -227,6 +227,58 @@
             font-size: 18px;
         }
 
+        #statsModal .modal-content h2 {
+            color: #667eea;
+        }
+
+        .stats-container {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .stats-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stats-section h3 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .empty-stats {
+            color: #999;
+            font-style: italic;
+        }
+
         .instructions {
             margin-top: 20px;
             text-align: center;
@@ -275,6 +327,7 @@
             <div class="timer" id="timer">00:00</div>
             <span class="error-count" id="errorCount">错误: 0</span>
             <button onclick="newGame()">新游戏</button>
+            <button onclick="showStatsModal()">📊 统计</button>
         </div>
 
         <div class="sudoku-board" id="board"></div>
@@ -302,6 +355,17 @@
         </div>
     </div>
 
+    <div class="modal" id="statsModal">
+        <div class="modal-content">
+            <h2>📊 游戏统计</h2>
+            <div id="statsContent"></div>
+            <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+                <button onclick="closeStatsModal()">关闭</button>
+                <button onclick="resetStats()" style="background:#ef4444">重置统计</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let board = [];
         let solution = [];
@@ -312,6 +376,7 @@
         let gameStarted = false;
         let errorCount = 0;
         let hasFailed = false;
+        let currentDifficulty = 'medium';
 
         const EMPTY = 0;
 
@@ -339,12 +404,12 @@
 
         // 生成新的数独游戏
         function newGame() {
-            const difficulty = document.getElementById('difficulty').value;
+            currentDifficulty = document.getElementById('difficulty').value;
             const cellsToRemove = {
                 'easy': 35,
                 'medium': 40,
                 'hard': 50
-            }[difficulty];
+            }[currentDifficulty];
 
             // 生成完整的解决方案
             solution = generateSolution();
@@ -627,6 +692,7 @@
 
             // 首次输入启动计时器
             startTimer();
+            console.log('Timer started, gameStarted:', gameStarted); // Debug
 
             renderBoard();
 
@@ -688,6 +754,16 @@
             const secs = (seconds % 60).toString().padStart(2, '0');
             document.getElementById('finalTime').textContent = `${mins}:${secs}`;
             document.getElementById('completeModal').classList.add('show');
+
+            // 保存游戏记录
+            const stats = getStats();
+            const diff = currentDifficulty;
+            stats[diff].completed++;
+            stats[diff].totalTime += seconds;
+            if (stats[diff].bestTime === null || seconds < stats[diff].bestTime) {
+                stats[diff].bestTime = seconds;
+            }
+            saveStats(stats);
         }
 
         // 关闭弹窗
@@ -698,6 +774,87 @@
         // 关闭失败弹窗
         function closeFailModal() {
             document.getElementById('failModal').classList.remove('show');
+        }
+
+        // 显示统计弹窗
+        function showStatsModal() {
+            const stats = getStats();
+            const difficultyNames = { easy: '简单', medium: '中等', hard: '困难' };
+            const difficultyColors = { easy: '#10b981', medium: '#f59e0b', hard: '#ef4444' };
+
+            let html = '';
+            if (stats.easy.completed === 0 && stats.medium.completed === 0 && stats.hard.completed === 0) {
+                html = '<p class="empty-stats">暂无游戏记录</p>';
+            } else {
+                for (const diff of ['easy', 'medium', 'hard']) {
+                    html += `
+                        <div class="stats-section">
+                            <h3 style="color: ${difficultyColors[diff]}">${difficultyNames[diff]}</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-value">${stats[diff].completed}</div>
+                                    <div class="stat-label">完成游戏</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${stats[diff].bestTime !== null ? formatTime(stats[diff].bestTime) : '-'}</div>
+                                    <div class="stat-label">最佳时间</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${stats[diff].completed > 0 ? formatTime(Math.round(stats[diff].totalTime / stats[diff].completed)) : '-'}</div>
+                                    <div class="stat-label">平均时间</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            document.getElementById('statsContent').innerHTML = html;
+            document.getElementById('statsModal').classList.add('show');
+        }
+
+        // 关闭统计弹窗
+        function closeStatsModal() {
+            document.getElementById('statsModal').classList.remove('show');
+        }
+
+        // 获取统计信息
+        function getStats() {
+            const stored = localStorage.getItem('sudoku-stats');
+            if (stored) {
+                return JSON.parse(stored);
+            }
+
+            return {
+                easy: { completed: 0, totalTime: 0, bestTime: null },
+                medium: { completed: 0, totalTime: 0, bestTime: null },
+                hard: { completed: 0, totalTime: 0, bestTime: null }
+            };
+        }
+
+        // 保存统计信息
+        function saveStats(stats) {
+            localStorage.setItem('sudoku-stats', JSON.stringify(stats));
+        }
+
+        // 重置统计
+        function resetStats() {
+            if (confirm('确定要重置所有统计记录吗？此操作不可撤销。')) {
+                const stats = {
+                    easy: { completed: 0, totalTime: 0, bestTime: null },
+                    medium: { completed: 0, totalTime: 0, bestTime: null },
+                    hard: { completed: 0, totalTime: 0, bestTime: null }
+                };
+                saveStats(stats);
+                showStatsModal();
+            }
+        }
+
+        // 格式化时间为 mm:ss
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${mins}:${secs}`;
         }
 
         // 设置键盘事件
