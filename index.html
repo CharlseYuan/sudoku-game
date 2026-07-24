@@ -237,11 +237,12 @@
 
         .mobile-input {
             position: fixed;
-            opacity: 0;
+            top: 0;
+            left: 0;
+            opacity: 0.01;
             width: 1px;
             height: 1px;
-            pointer-events: none;
-            z-index: -1;
+            z-index: 9999;
         }
 
         @media (max-width: 450px) {
@@ -263,7 +264,7 @@
     <div class="container">
         <h1>数独游戏</h1>
 
-        <input type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="off" class="mobile-input" id="mobileInput">
+        <input type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocorrect="off" autocapitalize="off" class="mobile-input" id="mobileInput">
 
         <div class="controls">
             <select id="difficulty">
@@ -575,10 +576,10 @@
             highlightRelated(index);
             renderBoard();
 
-            // Check if we're on mobile before focusing input
-            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-                const mobileInput = document.getElementById("mobileInput");
-                mobileInput.value = ""; // Clear previous value
+            // Focus hidden input to trigger mobile keyboard
+            const mobileInput = document.getElementById("mobileInput");
+            if (mobileInput) {
+                mobileInput.value = "";
                 mobileInput.focus();
             }
         }
