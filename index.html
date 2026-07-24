@@ -287,6 +287,49 @@
             line-height: 1.8;
         }
 
+        .numpad {
+            display: none;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-width: 300px;
+            margin: 15px auto 0;
+        }
+
+        .numpad button {
+            padding: 12px;
+            font-size: 1.3rem;
+            border-radius: 10px;
+            background: #f0f4ff;
+            color: #667eea;
+            border: 2px solid #667eea;
+            cursor: pointer;
+            min-width: 48px;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .numpad button:active {
+            background: #667eea;
+            color: white;
+        }
+
+        .numpad button.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .numpad.show {
+                display: grid;
+            }
+
+            .instructions {
+                display: none;
+            }
+        }
+
         .mobile-input {
             position: fixed;
             top: 0;
@@ -331,6 +374,19 @@
         </div>
 
         <div class="sudoku-board" id="board"></div>
+
+        <div class="numpad" id="numpad">
+            <button onclick="inputNumber(1)">1</button>
+            <button onclick="inputNumber(2)">2</button>
+            <button onclick="inputNumber(3)">3</button>
+            <button onclick="inputNumber(4)">4</button>
+            <button onclick="inputNumber(5)">5</button>
+            <button onclick="inputNumber(6)">6</button>
+            <button onclick="inputNumber(7)">7</button>
+            <button onclick="inputNumber(8)">8</button>
+            <button onclick="inputNumber(9)">9</button>
+            <button onclick="inputNumber(0)">✕</button>
+        </div>
 
         <div class="instructions">
             点击格子后输入数字，方向键移动，Backspace/Delete 清除
@@ -435,6 +491,7 @@
             renderBoard();
             resetTimer();
             gameStarted = false;
+            updateNumpadState();
         }
 
         // 使用回溯法生成完整数独解决方案
@@ -640,6 +697,7 @@
             selectedCell = index;
             highlightRelated(index);
             renderBoard();
+            updateNumpadState();
 
             // Focus hidden input to trigger mobile keyboard
             const mobileInput = document.getElementById("mobileInput");
@@ -692,9 +750,9 @@
 
             // 首次输入启动计时器
             startTimer();
-            console.log('Timer started, gameStarted:', gameStarted); // Debug
 
             renderBoard();
+            updateNumpadState();
 
             // 检查游戏是否完成
             checkWin();
@@ -893,9 +951,33 @@
             });
         }
 
+        function updateNumpadState() {
+            const numpad = document.getElementById("numpad");
+            if (!numpad) return;
+            const numpadButtons = numpad.querySelectorAll('button');
+            const hasSelectedCell = selectedCell !== null && selectedCell !== undefined;
+
+            numpadButtons.forEach(btn => {
+                if (!hasSelectedCell) {
+                    btn.classList.add('disabled');
+                } else {
+                    btn.classList.remove('disabled');
+                }
+            });
+        }
+
         // 设置移动端输入
         function setupMobileInput() {
             const mobileInput = document.getElementById("mobileInput");
+            const numpad = document.getElementById("numpad");
+
+            // Detect touch device
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+            // Show numpad on touch devices
+            if (isTouchDevice) {
+                numpad.classList.add('show');
+            }
 
             mobileInput.addEventListener("input", (e) => {
                 const value = e.target.value;
