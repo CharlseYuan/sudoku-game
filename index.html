@@ -918,31 +918,18 @@
                 }
             });
 
-            // Scroll board into view when keyboard opens
-            mobileInput.addEventListener("focusin", () => {
-                setTimeout(() => {
-                    const board = document.getElementById("board");
-                    board.scrollIntoView({ behavior: "smooth", block: "center" });
-                }, 300);
-            });
-
-            // Scroll back to top when keyboard is dismissed
-            mobileInput.addEventListener("focusout", () => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            });
-
-            // Fallback: visualViewport resize listener
+            // Only scroll when keyboard actually opens (viewport shrinks)
             if (window.visualViewport) {
                 let lastHeight = window.visualViewport.height;
                 window.visualViewport.addEventListener("resize", () => {
-                    const diff = lastHeight - window.visualViewport.height;
-                    if (diff > 100) {
-                        // Keyboard opened
+                    const diff = window.visualViewport.height - lastHeight;
+                    if (diff < -100) {
+                        // Keyboard opened - viewport got shorter
                         setTimeout(() => {
-                            document.getElementById("board").scrollIntoView({ behavior: "smooth", block: "center" });
+                            const board = document.getElementById("board");
+                            if (board) board.scrollIntoView({ behavior: "smooth", block: "center" });
                         }, 100);
                     }
-                    lastHeight = window.visualViewport.height;
                 });
             }
 
