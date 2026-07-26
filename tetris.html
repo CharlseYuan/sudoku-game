@@ -384,7 +384,7 @@
 
         const COLORS = ['I', 'O', 'T', 'S', 'Z', 'J', 'L'];
 
-        let grid = [];
+        let gameBoard = [];
         let currentPiece = null;
         let nextPiece = null;
         let score = 0;
@@ -394,9 +394,9 @@
         let isGameOver = false;
 
         function createGrid() {
-            grid = [];
+            gameBoard = [];
             for (let row = 0; row < ROWS; row++) {
-                grid.push(new Array(COLS).fill(null));
+                gameBoard.push(new Array(COLS).fill(null));
             }
         }
 
@@ -460,7 +460,7 @@
                             return false;
                         }
 
-                        if (newRow >= 0 && grid[newRow][newCol]) {
+                        if (newRow >= 0 && gameBoard[newRow][newCol]) {
                             return false;
                         }
                     }
@@ -476,7 +476,7 @@
                         const gridRow = row + currentPiece.row;
                         const gridCol = col + currentPiece.col;
                         if (gridRow >= 0 && gridRow < ROWS && gridCol >= 0 && gridCol < COLS) {
-                            grid[gridRow][gridCol] = currentPiece.color;
+                            gameBoard[gridRow][gridCol] = currentPiece.color;
                         }
                     }
                 }
@@ -487,9 +487,9 @@
             let clearedLines = 0;
 
             for (let row = ROWS - 1; row >= 0; row--) {
-                if (grid[row].every(cell => cell !== null)) {
-                    grid.splice(row, 1);
-                    grid.unshift(new Array(COLS).fill(null));
+                if (gameBoard[row].every(cell => cell !== null)) {
+                    gameBoard.splice(row, 1);
+                    gameBoard.unshift(new Array(COLS).fill(null));
                     clearedLines++;
                     row++;
                 }
@@ -520,8 +520,8 @@
                 for (let col = 0; col < COLS; col++) {
                     const cell = document.getElementById(`cell-${row}-${col}`);
                     cell.className = 'cell';
-                    if (grid[row][col]) {
-                        cell.classList.add('filled', grid[row][col]);
+                    if (gameBoard[row][col]) {
+                        cell.classList.add('filled', gameBoard[row][col]);
                     }
                 }
             }
