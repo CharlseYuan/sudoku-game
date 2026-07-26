@@ -12,31 +12,36 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f172a 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: #e8e8e8;
             overflow: hidden;
             touch-action: manipulation;
         }
 
         .game-container {
             display: flex;
-            gap: 20px;
-            padding: 20px;
+            gap: 24px;
+            padding: 24px;
             max-width: 800px;
             width: 100%;
+            align-items: flex-start;
         }
 
         .game-board {
             position: relative;
-            background: rgba(0, 0, 0, 0.5);
-            border: 3px solid #4a5568;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            box-shadow:
+                0 0 40px rgba(0, 0, 0, 0.4),
+                inset 0 0 60px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.02);
+            overflow: hidden;
         }
 
         canvas {
@@ -46,54 +51,63 @@
         .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            min-width: 150px;
+            gap: 16px;
+            min-width: 160px;
         }
 
         .info-panel {
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid #4a5568;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow:
+                0 4px 24px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .info-panel h3 {
-            color: #a0aec0;
-            font-size: 14px;
+            color: #a1a1aa;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            letter-spacing: 2.5px;
+            margin-bottom: 12px;
+            font-weight: 500;
         }
 
         .info-panel .value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #63b3ed;
-            text-shadow: 0 0 10px rgba(99, 179, 237, 0.5);
+            font-size: 32px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff 0%, #e8e8e8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
         }
 
         #next-piece {
             width: 100px;
             height: 100px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 2px solid #4a5568;
-            border-radius: 4px;
-            margin-top: 5px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-top: 8px;
         }
 
         .controls-info {
             font-size: 11px;
-            color: #718096;
-            line-height: 1.8;
+            color: #71717a;
+            line-height: 2;
         }
 
         .controls-info kbd {
-            background: #2d3748;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            color: #e4e4e7;
+            font-size: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .overlay {
@@ -103,12 +117,14 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-radius: 8px;
+            border-radius: 16px;
             z-index: 10;
+            transition: opacity 0.3s ease;
         }
 
         .overlay.hidden {
@@ -116,40 +132,50 @@
         }
 
         .overlay h2 {
-            font-size: 36px;
-            color: #ed8936;
-            text-shadow: 0 0 20px rgba(237, 137, 54, 0.5);
-            margin-bottom: 20px;
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            letter-spacing: 4px;
         }
 
         .overlay p {
-            font-size: 18px;
-            color: #a0aec0;
-            margin-bottom: 30px;
+            font-size: 16px;
+            color: #a1a1aa;
+            margin-bottom: 32px;
         }
 
         .btn {
-            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             border: none;
-            padding: 15px 40px;
-            font-size: 18px;
+            padding: 16px 48px;
+            font-size: 16px;
             color: #fff;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(237, 137, 54, 0.4);
-            transition: all 0.3s ease;
+            letter-spacing: 3px;
+            font-weight: 500;
+            box-shadow:
+                0 4px 20px rgba(99, 102, 241, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(237, 137, 54, 0.6);
+            box-shadow:
+                0 8px 30px rgba(99, 102, 241, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.15);
         }
 
         .btn:active {
             transform: translateY(0);
+            box-shadow:
+                0 4px 20px rgba(99, 102, 241, 0.4);
         }
 
         /* Mobile controls */
@@ -159,16 +185,18 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            padding: 16px 8px;
             z-index: 100;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .mobile-controls-row {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 8px;
         }
 
         .mobile-controls-row:last-child {
@@ -176,12 +204,13 @@
         }
 
         .mobile-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid #4a5568;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            color: #e8e8e8;
             font-size: 24px;
             cursor: pointer;
             display: flex;
@@ -189,32 +218,37 @@
             align-items: center;
             user-select: none;
             -webkit-user-select: none;
-            transition: all 0.1s ease;
+            transition: all 0.15s ease;
         }
 
         .mobile-btn:active {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
             transform: scale(0.95);
         }
 
         .mobile-btn.dpad {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
         }
 
         .mobile-btn.action {
-            width: 70px;
-            height: 70px;
-            background: rgba(237, 137, 54, 0.3);
-            border-color: #ed8936;
+            width: 72px;
+            height: 72px;
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .mobile-btn.action:active {
+            background: rgba(99, 102, 241, 0.25);
         }
 
         @media (max-width: 768px) {
             .game-container {
                 flex-direction: column;
                 align-items: center;
-                padding: 10px;
+                padding: 12px;
+                gap: 16px;
             }
 
             .sidebar {
@@ -225,16 +259,17 @@
             }
 
             .info-panel {
-                padding: 10px;
-                min-width: 80px;
+                padding: 12px;
+                min-width: 70px;
             }
 
             .info-panel h3 {
-                font-size: 10px;
+                font-size: 9px;
+                letter-spacing: 2px;
             }
 
             .info-panel .value {
-                font-size: 18px;
+                font-size: 16px;
             }
 
             #next-piece {
@@ -256,7 +291,8 @@
             }
 
             .game-board {
-                border-width: 2px;
+                border-width: 1px;
+                border-radius: 12px;
             }
         }
     </style>
@@ -324,7 +360,7 @@
         const TETROMINOES = {
             I: {
                 shape: [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
-                color: '#00f5ff'
+                color: '#00d4ff'
             },
             O: {
                 shape: [[1, 1], [1, 1]],
@@ -332,23 +368,23 @@
             },
             T: {
                 shape: [[0, 1, 0], [1, 1, 1], [0, 0, 0]],
-                color: '#a855f7'
+                color: '#a78bfa'
             },
             S: {
                 shape: [[0, 1, 1], [1, 1, 0], [0, 0, 0]],
-                color: '#22c55e'
+                color: '#34d399'
             },
             Z: {
                 shape: [[1, 1, 0], [0, 1, 1], [0, 0, 0]],
-                color: '#ef4444'
+                color: '#f87171'
             },
             J: {
                 shape: [[1, 0, 0], [1, 1, 1], [0, 0, 0]],
-                color: '#3b82f6'
+                color: '#60a5fa'
             },
             L: {
                 shape: [[0, 0, 1], [1, 1, 1], [0, 0, 0]],
-                color: '#f97316'
+                color: '#fb923c'
             }
         };
 
@@ -551,10 +587,26 @@
             linesEl.textContent = lines;
         }
 
-        // Draw block
+        // Draw block with premium glow
         function drawBlock(context, x, y, color, size = BLOCK_SIZE) {
-            const padding = 1;
-            context.fillStyle = color;
+            const padding = 2;
+            const glow = 15;
+
+            // Glow effect
+            context.shadowColor = color;
+            context.shadowBlur = glow;
+
+            // Main block
+            const gradient = context.createLinearGradient(
+                x * size + padding,
+                y * size + padding,
+                x * size + size - padding,
+                y * size + size - padding
+            );
+            gradient.addColorStop(0, color);
+            gradient.addColorStop(1, shadeColor(color, -20));
+
+            context.fillStyle = gradient;
             context.fillRect(
                 x * size + padding,
                 y * size + padding,
@@ -562,43 +614,61 @@
                 size - padding * 2
             );
 
-            // Add highlight for 3D effect
-            context.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            // Highlight
+            context.fillStyle = 'rgba(255, 255, 255, 0.4)';
             context.fillRect(
-                x * size + padding,
-                y * size + padding,
-                size - padding * 2,
-                3
+                x * size + padding + 2,
+                y * size + padding + 2,
+                size - padding * 2 - 4,
+                4
             );
             context.fillRect(
-                x * size + padding,
-                y * size + padding,
-                3,
-                size - padding * 2
+                x * size + padding + 2,
+                y * size + padding + 2,
+                4,
+                size - padding * 2 - 4
             );
 
-            // Add shadow
+            // Shadow
             context.fillStyle = 'rgba(0, 0, 0, 0.3)';
             context.fillRect(
-                x * size + padding,
-                y * size + size - padding - 3,
-                size - padding * 2,
-                3
+                x * size + padding + 2,
+                y * size + size - padding - 2,
+                size - padding * 2 - 4,
+                2
             );
             context.fillRect(
-                x * size + size - padding - 3,
-                y * size + padding,
-                3,
-                size - padding * 2
+                x * size + size - padding - 2,
+                y * size + padding + 2,
+                2,
+                size - padding * 2 - 4
             );
+
+            // Reset shadow
+            context.shadowBlur = 0;
         }
 
-        // Draw ghost piece
+        // Helper function to shade colors
+        function shadeColor(color, percent) {
+            const num = parseInt(color.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return '#' + (
+                0x1000000 +
+                (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
+                (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 +
+                (B < 255 ? (B < 1 ? 0 : B) : 255)
+            ).toString(16).slice(1);
+        }
+
+        // Draw ghost piece with subtle glow
         function drawGhostPiece() {
             if (!currentPiece) return;
 
             const ghostY = getGhostY();
-            ctx.globalAlpha = 0.3;
+            ctx.globalAlpha = 0.15;
 
             for (let y = 0; y < currentPiece.shape.length; y++) {
                 for (let x = 0; x < currentPiece.shape[y].length; x++) {
@@ -606,7 +676,21 @@
                         const boardX = currentPiece.x + x;
                         const boardY = ghostY + y;
                         if (boardY >= 0 && boardY < ROWS && boardX >= 0 && boardX < COLS) {
-                            drawBlock(ctx, boardX, boardY, currentPiece.color);
+                            const gradient = ctx.createLinearGradient(
+                                boardX * BLOCK_SIZE + 2,
+                                boardY * BLOCK_SIZE + 2,
+                                boardX * BLOCK_SIZE + BLOCK_SIZE - 2,
+                                boardY * BLOCK_SIZE + BLOCK_SIZE - 2
+                            );
+                            gradient.addColorStop(0, currentPiece.color);
+                            gradient.addColorStop(1, shadeColor(currentPiece.color, -20));
+                            ctx.fillStyle = gradient;
+                            ctx.fillRect(
+                                boardX * BLOCK_SIZE + 2,
+                                boardY * BLOCK_SIZE + 2,
+                                BLOCK_SIZE - 4,
+                                BLOCK_SIZE - 4
+                            );
                         }
                     }
                 }
@@ -617,11 +701,10 @@
 
         // Draw game board
         function drawBoard() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw grid
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            // Draw grid with subtle opacity
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
             ctx.lineWidth = 1;
             for (let x = 0; x <= COLS; x++) {
                 ctx.beginPath();
@@ -648,7 +731,7 @@
             // Draw ghost piece
             drawGhostPiece();
 
-            // Draw current piece
+            // Draw current piece with glow
             if (currentPiece) {
                 for (let y = 0; y < currentPiece.shape.length; y++) {
                     for (let x = 0; x < currentPiece.shape[y].length; x++) {
@@ -662,8 +745,7 @@
 
         // Draw next piece preview
         function drawNextPiece() {
-            nextCtx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-            nextCtx.fillRect(0, 0, nextCanvas.width, nextCanvas.height);
+            nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
 
             if (!nextPiece) return;
 
@@ -675,7 +757,16 @@
             for (let y = 0; y < shape.length; y++) {
                 for (let x = 0; x < shape[y].length; x++) {
                     if (shape[y][x]) {
-                        nextCtx.fillStyle = nextPiece.color;
+                        const gradient = nextCtx.createLinearGradient(
+                            offsetX + x * size + 1,
+                            offsetY + y * size + 1,
+                            offsetX + x * size + size - 1,
+                            offsetY + y * size + size - 1
+                        );
+                        gradient.addColorStop(0, nextPiece.color);
+                        gradient.addColorStop(1, shadeColor(nextPiece.color, -20));
+
+                        nextCtx.fillStyle = gradient;
                         nextCtx.fillRect(
                             offsetX + x * size + 1,
                             offsetY + y * size + 1,
