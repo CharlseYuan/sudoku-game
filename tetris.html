@@ -88,13 +88,36 @@
             display: flex;
         }
 
+        .start-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 16px;
+            color: white;
+            display: flex;
+        }
+
+        .start-overlay h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
         .game-over-overlay h2 {
             font-size: 32px;
             margin-bottom: 10px;
             font-weight: 700;
         }
 
-        .game-over-overlay p {
+        .game-over-overlay p,
+        .start-overlay p {
             font-size: 18px;
             margin-bottom: 20px;
         }
@@ -304,6 +327,11 @@
                 <h2>游戏结束</h2>
                 <p>得分: <span id="finalScore">0</span></p>
                 <button class="btn btn-primary" onclick="startGame()">重新开始</button>
+            </div>
+            <div class="start-overlay" id="startScreen">
+                <h2>俄罗斯方块</h2>
+                <p>准备好了吗？</p>
+                <button class="btn btn-primary" onclick="startGame()">开始游戏</button>
             </div>
         </div>
 
@@ -645,6 +673,7 @@
             createNextPieceCells();
 
             document.getElementById('gameOver').classList.remove('visible');
+            document.getElementById('startScreen').style.display = 'none';
             updateDisplay();
 
             nextPiece = getRandomPiece();
@@ -722,8 +751,8 @@
             }
         });
 
-        // Start the game
-        startGame();
+        // Start screen is now shown by default, waiting for user to click "开始游戏"
+    </script>
     </script>
 </body>
 </html>
