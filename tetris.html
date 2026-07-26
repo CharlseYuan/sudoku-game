@@ -294,36 +294,36 @@
         <div class="game-board">
             <canvas id="game" width="300" height="600"></canvas>
             <div id="overlay" class="overlay">
-                <h2 id="overlay-title">TETRIS</h2>
-                <p id="overlay-message">Press Start to Play</p>
-                <button class="btn" id="start-btn">Start Game</button>
+                <h2 id="overlay-title">俄罗斯方块</h2>
+                <p id="overlay-message">按开始键开始游戏</p>
+                <button class="btn" id="start-btn">开始游戏</button>
                 <button class="btn" id="restart-btn" style="margin-top: 12px;">重新开始</button>
             </div>
         </div>
         <div class="sidebar">
             <div class="info-panel">
-                <h3>Score</h3>
+                <h3>得分</h3>
                 <div id="score" class="value">0</div>
             </div>
             <div class="info-panel">
-                <h3>Level</h3>
+                <h3>等级</h3>
                 <div id="level" class="value">1</div>
             </div>
             <div class="info-panel">
-                <h3>Lines</h3>
+                <h3>行数</h3>
                 <div id="lines" class="value">0</div>
             </div>
             <div class="info-panel">
-                <h3>Next</h3>
+                <h3>下一个</h3>
                 <canvas id="next-piece" width="100" height="100"></canvas>
             </div>
             <div class="info-panel controls-info">
-                <h3>Controls</h3>
-                <p><kbd>←</kbd> <kbd>→</kbd> Move</p>
-                <p><kbd>↓</kbd> Soft Drop</p>
-                <p><kbd>↑</kbd> Rotate</p>
-                <p><kbd>Space</kbd> Hard Drop</p>
-                <p><kbd>P</kbd> Pause</p>
+                <h3>控制</h3>
+                <p><kbd>←</kbd> <kbd>→</kbd> 移动</p>
+                <p><kbd>↓</kbd> 软降</p>
+                <p><kbd>↑</kbd> 旋转</p>
+                <p><kbd>空格</kbd> 硬降</p>
+                <p><kbd>P</kbd> 暂停</p>
             </div>
         </div>
     </div>
@@ -747,9 +747,9 @@
         function gameOver() {
             isPlaying = false;
             cancelAnimationFrame(gameLoop);
-            overlayTitle.textContent = 'GAME OVER';
-            overlayMessage.textContent = `Final Score: ${score}`;
-            startBtn.textContent = 'Play Again';
+            overlayTitle.textContent = '游戏结束';
+            overlayMessage.textContent = `最终得分: ${score}`;
+            startBtn.textContent = '再次游戏';
             overlay.classList.remove('hidden');
         }
 
@@ -778,9 +778,9 @@
 
             isPaused = !isPaused;
             if (isPaused) {
-                overlayTitle.textContent = 'PAUSED';
-                overlayMessage.textContent = 'Press P to resume';
-                startBtn.textContent = 'Resume';
+                overlayTitle.textContent = '已暂停';
+                overlayMessage.textContent = '按 P 继续';
+                startBtn.textContent = '继续';
                 overlay.classList.remove('hidden');
             } else {
                 overlay.classList.add('hidden');
