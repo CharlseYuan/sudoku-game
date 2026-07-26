@@ -223,38 +223,63 @@
             .game-container {
                 flex-direction: column;
                 align-items: center;
-                padding: 8px;
+                padding: 6px;
                 gap: 8px;
                 min-height: 100vh;
                 justify-content: flex-start;
             }
 
+            .game-board {
+                max-width: 100%;
+                width: 100%;
+                border-width: 1px;
+                border-radius: 12px;
+                /* Maintain 390:720 aspect ratio while fitting screen */
+                aspect-ratio: 390/720;
+            }
+
+            .game-board canvas {
+                width: 100%;
+                height: 100%;
+                display: block;
+                object-fit: contain;
+            }
+
             .sidebar {
                 flex-direction: row;
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
                 justify-content: center;
-                min-width: auto;
+                align-items: center;
                 gap: 6px;
+                width: 100%;
+                padding: 0 8px;
             }
 
             .info-panel {
                 padding: 6px 10px;
-                min-width: 60px;
+                min-width: auto;
+                flex-shrink: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
             }
 
             .info-panel h3 {
-                font-size: 8px;
+                font-size: 9px;
                 letter-spacing: 1px;
-                margin-bottom: 4px;
+                margin-bottom: 2px;
             }
 
             .info-panel .value {
                 font-size: 14px;
+                font-weight: 600;
             }
 
             #next-piece {
-                width: 50px;
-                height: 50px;
+                width: 40px;
+                height: 40px;
+                margin: 0;
             }
 
             .controls-info {
@@ -263,15 +288,21 @@
 
             .mobile-controls {
                 display: flex;
-            }
-
-            canvas {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 6px;
+                padding: 8px;
+                width: 100%;
                 max-width: 100%;
-                height: auto;
+                flex-wrap: nowrap;
+                margin-top: auto;
             }
 
-            .game-board {
-                border-width: 1px;
+            .mobile-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
                 border-radius: 12px;
             }
 
