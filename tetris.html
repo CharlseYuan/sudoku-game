@@ -170,26 +170,22 @@
         .btn:active {
             transform: translateY(0);
         }
-    </style>
-    <style>
-        .controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
+
         .controls-row {
             display: flex;
-            gap: 6px;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
         }
+
         .ctrl-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.08);
             background: rgba(255,255,255,0.04);
             color: #e8e8e8;
-            font-size: 24px;
+            font-size: 16px;
             cursor: pointer;
             display: flex;
             justify-content: center;
@@ -198,38 +194,31 @@
             -webkit-user-select: none;
             transition: all 0.15s ease;
         }
-        .ctrl-btn:active { background: rgba(255,255,255,0.1); transform: scale(0.95); }
+
+        .ctrl-btn:active {
+            background: rgba(255,255,255,0.1);
+            transform: scale(0.95);
+        }
+
         .ctrl-btn.action {
             background: rgba(99,102,241,0.15);
             border-color: rgba(99,102,241,0.3);
-            width: 80px;
-            height: 44px;
-            font-size: 14px;
         }
-        .info-panel .value {
-            font-size: 28px;
-            font-weight: 600;
-        }
-        .info-panel h3 {
-            font-size: 12px;
-            color: #a1a1aa;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        @media (max-width: 480px) {
-            .game-container {
+
+        /* Mobile layout (max-width: 768px) */
+        @media (max-width: 768px) {
+            body {
+                align-items: flex-start;
                 padding: 12px;
-                gap: 10px;
                 overflow-y: auto;
             }
-            .game-board {
-                max-width: 100%;
-                width: 100%;
+
+            .game-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
             }
-            .game-board canvas {
-                width: 100%;
-                height: auto;
-            }
+
             .sidebar {
                 flex-direction: row;
                 flex-wrap: wrap;
@@ -238,8 +227,9 @@
                 gap: 12px;
                 width: 100%;
             }
+
             .info-panel {
-                padding: 10px 16px;
+                padding: 12px 16px;
                 min-width: auto;
                 flex: 0 0 auto;
                 display: flex;
@@ -247,90 +237,46 @@
                 align-items: center;
                 justify-content: center;
                 gap: 4px;
+                min-width: 80px;
             }
-            #next-piece {
-                width: 50px;
-                height: 50px;
-            }
+
             .info-panel h3 {
                 font-size: 10px;
                 letter-spacing: 1.5px;
                 margin: 0;
             }
+
             .info-panel .value {
-                font-size: 18px;
-            }
-            .controls {
-                display: flex;
-            }
-            .ctrl-btn {
-                width: 50px;
-                height: 50px;
                 font-size: 20px;
             }
+
+            #next-piece {
+                width: 60px;
+                height: 60px;
+            }
+
+            .ctrl-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 14px;
+            }
+
             .ctrl-btn.action {
-                width: 70px;
-                height: 40px;
                 font-size: 12px;
             }
         }
-        @media (min-width: 481px) { .controls { display: none; } }
-    </style>
-</head>
-<body>
-<div class="game-container">
-    <div class="game-board">
-        <canvas id="game" width="400" height="720"></canvas>
-        <div id="overlay" class="overlay">
-            <h2 id="overlay-title">俄罗斯方块</h2>
-            <p id="overlay-message">按开始键开始游戏</p>
-            <button class="btn" id="start-btn">开始游戏</button>
-            <button class="btn" id="restart-btn" style="margin-top: 12px;">重新开始</button>
-        </div>
-    </div>
-    <div class="sidebar">
-        <div class="info-panel">
-            <h3>得分</h3>
-            <div id="score" class="value">0</div>
-        </div>
-        <div class="info-panel">
-            <h3>等级</h3>
-            <div id="level" class="value">1</div>
-        </div>
-        <div class="info-panel">
-            <h3>行数</h3>
-            <div id="lines" class="value">0</div>
-        </div>
-        <div class="info-panel">
-            <h3>下一个</h3>
-            <canvas id="next-piece" width="100" height="100"></canvas>
-        </div>
-    </div>
-    <div class="controls" id="mobileControls">
-        <div class="controls-row">
-            <div style="width:50px"></div>
-            <button class="ctrl-btn" data-dir="up">↑</button>
-            <div style="width:50px"></div>
-        </div>
-        <div class="controls-row">
-            <button class="ctrl-btn" data-dir="left">←</button>
-            <button class="ctrl-btn action" id="mobile-rotate">↻</button>
-            <button class="ctrl-btn" data-dir="right">→</button>
-        </div>
-        <div class="controls-row">
-            <div style="width:50px"></div>
-            <button class="ctrl-btn" data-dir="down">↓</button>
-            <button class="ctrl-btn action" id="mobile-drop">⬇</button>
-            <div style="width:50px"></div>
-        </div>
-    </div>
-</div>
+
+        @media (min-width: 769px) {
+            .mobile-controls {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="game-container">
         <div class="game-board">
-            <canvas id="game" width="390" height="720"></canvas>
+            <canvas id="game" width="400" height="720"></canvas>
             <div id="overlay" class="overlay">
                 <h2 id="overlay-title">俄罗斯方块</h2>
                 <p id="overlay-message">按开始键开始游戏</p>
@@ -355,23 +301,16 @@
                 <h3>下一个</h3>
                 <canvas id="next-piece" width="100" height="100"></canvas>
             </div>
-            <div class="info-panel controls-info">
-                <h3>控制</h3>
-                <p><kbd>←</kbd> <kbd>→</kbd> 移动</p>
-                <p><kbd>↓</kbd> 软降</p>
-                <p><kbd>↑</kbd> 旋转</p>
-                <p><kbd>空格</kbd> 硬降</p>
-                <p><kbd>P</kbd> 暂停</p>
+        </div>
+        <div class="mobile-controls">
+            <div class="controls-row">
+                <button class="ctrl-btn" id="mobile-left">←</button>
+                <button class="ctrl-btn action" id="mobile-rotate">↻</button>
+                <button class="ctrl-btn" id="mobile-down">↓</button>
+                <button class="ctrl-btn action" id="mobile-drop">⬇</button>
+                <button class="ctrl-btn" id="mobile-right">→</button>
             </div>
         </div>
-    </div>
-
-    <div class="mobile-controls">
-        <button class="mobile-btn dpad" id="mobile-left">←</button>
-        <button class="mobile-btn action" id="mobile-rotate">↻</button>
-        <button class="mobile-btn dpad" id="mobile-down">↓</button>
-        <button class="mobile-btn action" id="mobile-drop">⬇</button>
-        <button class="mobile-btn dpad" id="mobile-right">→</button>
     </div>
 
     <script>
