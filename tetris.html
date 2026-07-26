@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>Tetris</title>
     <style>
         * {
@@ -175,17 +175,16 @@
         .mobile-controls {
             display: none;
             justify-content: center;
-            gap: 10px;
-            padding: 8px 4px;
-            flex-wrap: nowrap;
+            gap: 8px;
+            padding: 12px 8px;
         }
 
         .mobile-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.04);
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(10px);
             color: #e8e8e8;
             font-size: 20px;
@@ -195,105 +194,126 @@
             align-items: center;
             user-select: none;
             -webkit-user-select: none;
-            transition: all 0.15s ease;
+            touch-action: manipulation;
+            transition: all 0.1s ease;
         }
 
         .mobile-btn:active {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(0.95);
+            background: rgba(99, 102, 241, 0.25);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: scale(0.92);
         }
 
         .mobile-btn.dpad {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 52px;
+            height: 52px;
         }
 
         .mobile-btn.action {
-            width: 48px;
-            height: 48px;
-            background: rgba(99, 102, 241, 0.15);
-            border-color: rgba(99, 102, 241, 0.3);
+            width: 52px;
+            height: 52px;
+            background: rgba(99, 102, 241, 0.12);
+            border-color: rgba(99, 102, 241, 0.25);
         }
 
+        /* Desktop media query */
+        @media (min-width: 769px) {
+            .mobile-controls {
+                display: none;
+            }
+        }
+
+        /* Mobile media query */
         @media (max-width: 768px) {
             body {
                 overflow-x: hidden;
+                overflow-y: hidden;
                 padding: 0;
             }
+
             .game-container {
                 flex-direction: column;
                 align-items: center;
-                padding: 6px;
-                gap: 8px;
+                padding: 8px;
+                gap: 6px;
                 min-height: 100vh;
                 justify-content: flex-start;
                 max-width: 100vw;
-                overflow-x: hidden;
+                overflow: hidden;
             }
+
             .game-board {
                 max-width: 100%;
                 width: 100%;
                 border-width: 1px;
                 border-radius: 12px;
             }
+
             .game-board canvas {
                 width: 100%;
                 height: auto;
                 display: block;
             }
+
             .sidebar {
                 flex-direction: row;
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
                 justify-content: center;
                 align-items: center;
                 gap: 6px;
                 width: 100%;
                 max-width: 100%;
-                padding: 0 4px;
+                padding: 6px 4px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scrollbar-width: none;
             }
+
+            .sidebar::-webkit-scrollbar {
+                display: none;
+            }
+
             .info-panel {
-                padding: 6px 8px;
+                padding: 6px 10px;
                 min-width: auto;
-                flex: 0 1 auto;
+                flex: 0 0 auto;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
             }
+
             .info-panel h3 {
                 font-size: 9px;
                 letter-spacing: 1px;
                 margin-bottom: 2px;
             }
+
             .info-panel .value {
-                font-size: 14px;
+                font-size: 16px;
                 font-weight: 600;
             }
+
             #next-piece {
-                width: 40px;
-                height: 40px;
+                width: 36px;
+                height: 36px;
                 margin: 0;
             }
+
             .controls-info {
                 display: none;
             }
+
             .mobile-controls {
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
                 gap: 6px;
-                padding: 8px;
+                padding: 10px 4px;
                 width: 100%;
                 max-width: 100%;
                 flex-wrap: nowrap;
-            }
-            .mobile-btn {
-                width: 48px;
-                height: 48px;
-                font-size: 18px;
-                border-radius: 12px;
             }
         }
     </style>
@@ -338,11 +358,11 @@
     </div>
 
     <div class="mobile-controls">
-            <button class="mobile-btn dpad" id="mobile-left">←</button>
-            <button class="mobile-btn action" id="mobile-rotate">↻</button>
-            <button class="mobile-btn dpad" id="mobile-down">↓</button>
-            <button class="mobile-btn action" id="mobile-drop">⬇</button>
-            <button class="mobile-btn dpad" id="mobile-right">→</button>
+        <button class="mobile-btn dpad" id="mobile-left">←</button>
+        <button class="mobile-btn action" id="mobile-rotate">↻</button>
+        <button class="mobile-btn dpad" id="mobile-down">↓</button>
+        <button class="mobile-btn action" id="mobile-drop">⬇</button>
+        <button class="mobile-btn dpad" id="mobile-right">→</button>
     </div>
 
     <script>
@@ -832,35 +852,29 @@
         });
 
         // Mobile controls
-        document.getElementById('mobile-left').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            if (isPlaying && !isPaused) movePiece(-1, 0);
-        });
+        const mobileLeft = document.getElementById('mobile-left');
+        const mobileRight = document.getElementById('mobile-right');
+        const mobileDown = document.getElementById('mobile-down');
+        const mobileRotate = document.getElementById('mobile-rotate');
+        const mobileDrop = document.getElementById('mobile-drop');
 
-        document.getElementById('mobile-right').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            if (isPlaying && !isPaused) movePiece(1, 0);
-        });
+        const handleTouch = (button, callback) => {
+            button.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (isPlaying && !isPaused) callback();
+            });
+        };
 
-        document.getElementById('mobile-down').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            if (isPlaying && !isPaused) {
-                if (movePiece(0, 1)) {
-                    score += 1;
-                    updateUI();
-                }
+        handleTouch(mobileLeft, () => movePiece(-1, 0));
+        handleTouch(mobileRight, () => movePiece(1, 0));
+        handleTouch(mobileDown, () => {
+            if (movePiece(0, 1)) {
+                score += 1;
+                updateUI();
             }
         });
-
-        document.getElementById('mobile-rotate').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            if (isPlaying && !isPaused) tryRotate();
-        });
-
-        document.getElementById('mobile-drop').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            if (isPlaying && !isPaused) hardDrop();
-        });
+        handleTouch(mobileRotate, tryRotate);
+        handleTouch(mobileDrop, hardDrop);
 
         // Start button
         startBtn.addEventListener('click', () => {
