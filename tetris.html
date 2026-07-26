@@ -159,23 +159,15 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: 500;
-            box-shadow:
-                0 4px 20px rgba(99, 102, 241, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.1);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow:
-                0 8px 30px rgba(99, 102, 241, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.15);
         }
 
         .btn:active {
             transform: translateY(0);
-            box-shadow:
-                0 4px 20px rgba(99, 102, 241, 0.4);
         }
 
         /* Mobile controls */
@@ -305,6 +297,7 @@
                 <h2 id="overlay-title">TETRIS</h2>
                 <p id="overlay-message">Press Start to Play</p>
                 <button class="btn" id="start-btn">Start Game</button>
+                <button class="btn" id="restart-btn" style="margin-top: 12px;">重新开始</button>
             </div>
         </div>
         <div class="sidebar">
@@ -415,6 +408,7 @@
         const overlayTitle = document.getElementById('overlay-title');
         const overlayMessage = document.getElementById('overlay-message');
         const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
 
         // Initialize the board
         function initBoard() {
@@ -494,15 +488,6 @@
             return false;
         }
 
-        // Get ghost piece position
-        function getGhostY() {
-            let ghostY = currentPiece.y;
-            while (!hasCollision(currentPiece, 0, ghostY - currentPiece.y + 1)) {
-                ghostY++;
-            }
-            return ghostY;
-        }
-
         // Lock piece to board
         function lockPiece() {
             for (let y = 0; y < currentPiece.shape.length; y++) {
@@ -573,9 +558,10 @@
 
         // Hard drop
         function hardDrop() {
-            const ghostY = getGhostY();
-            score += (ghostY - currentPiece.y) * 2;
-            currentPiece.y = ghostY;
+            while (!hasCollision(currentPiece, 0, 1)) {
+                currentPiece.y++;
+                score += 2;
+            }
             lockPiece();
             updateUI();
         }
@@ -587,14 +573,9 @@
             linesEl.textContent = lines;
         }
 
-        // Draw block with premium glow
+        // Draw block
         function drawBlock(context, x, y, color, size = BLOCK_SIZE) {
             const padding = 2;
-            const glow = 15;
-
-            // Glow effect
-            context.shadowColor = color;
-            context.shadowBlur = glow;
 
             // Main block
             const gradient = context.createLinearGradient(
@@ -643,9 +624,6 @@
                 2,
                 size - padding * 2 - 4
             );
-
-            // Reset shadow
-            context.shadowBlur = 0;
         }
 
         // Helper function to shade colors
@@ -661,42 +639,6 @@
                 (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 +
                 (B < 255 ? (B < 1 ? 0 : B) : 255)
             ).toString(16).slice(1);
-        }
-
-        // Draw ghost piece with subtle glow
-        function drawGhostPiece() {
-            if (!currentPiece) return;
-
-            const ghostY = getGhostY();
-            ctx.globalAlpha = 0.15;
-
-            for (let y = 0; y < currentPiece.shape.length; y++) {
-                for (let x = 0; x < currentPiece.shape[y].length; x++) {
-                    if (currentPiece.shape[y][x]) {
-                        const boardX = currentPiece.x + x;
-                        const boardY = ghostY + y;
-                        if (boardY >= 0 && boardY < ROWS && boardX >= 0 && boardX < COLS) {
-                            const gradient = ctx.createLinearGradient(
-                                boardX * BLOCK_SIZE + 2,
-                                boardY * BLOCK_SIZE + 2,
-                                boardX * BLOCK_SIZE + BLOCK_SIZE - 2,
-                                boardY * BLOCK_SIZE + BLOCK_SIZE - 2
-                            );
-                            gradient.addColorStop(0, currentPiece.color);
-                            gradient.addColorStop(1, shadeColor(currentPiece.color, -20));
-                            ctx.fillStyle = gradient;
-                            ctx.fillRect(
-                                boardX * BLOCK_SIZE + 2,
-                                boardY * BLOCK_SIZE + 2,
-                                BLOCK_SIZE - 4,
-                                BLOCK_SIZE - 4
-                            );
-                        }
-                    }
-                }
-            }
-
-            ctx.globalAlpha = 1;
         }
 
         // Draw game board
@@ -728,10 +670,7 @@
                 }
             }
 
-            // Draw ghost piece
-            drawGhostPiece();
-
-            // Draw current piece with glow
+            // Draw current piece
             if (currentPiece) {
                 for (let y = 0; y < currentPiece.shape.length; y++) {
                     for (let x = 0; x < currentPiece.shape[y].length; x++) {
@@ -928,6 +867,9 @@
                 startGame();
             }
         });
+
+        // Restart button
+        restartBtn.addEventListener('click', startGame);
 
         // Prevent scrolling on mobile
         document.addEventListener('touchmove', (e) => {
