@@ -173,37 +173,21 @@
         /* Mobile controls */
         .mobile-controls {
             display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
-            padding: 16px 8px;
-            z-index: 100;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .mobile-controls-row {
-            display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-
-        .mobile-controls-row:last-child {
-            margin-bottom: 0;
+            gap: 10px;
+            padding: 8px 4px;
+            flex-wrap: nowrap;
         }
 
         .mobile-btn {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(10px);
             color: #e8e8e8;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
             display: flex;
             justify-content: center;
@@ -219,14 +203,14 @@
         }
 
         .mobile-btn.dpad {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
         }
 
         .mobile-btn.action {
-            width: 72px;
-            height: 72px;
+            width: 48px;
+            height: 48px;
             background: rgba(99, 102, 241, 0.15);
             border-color: rgba(99, 102, 241, 0.3);
         }
@@ -239,8 +223,10 @@
             .game-container {
                 flex-direction: column;
                 align-items: center;
-                padding: 12px;
-                gap: 16px;
+                padding: 8px;
+                gap: 8px;
+                min-height: 100vh;
+                justify-content: flex-start;
             }
 
             .sidebar {
@@ -248,25 +234,27 @@
                 flex-wrap: wrap;
                 justify-content: center;
                 min-width: auto;
+                gap: 6px;
             }
 
             .info-panel {
-                padding: 12px;
-                min-width: 70px;
+                padding: 6px 10px;
+                min-width: 60px;
             }
 
             .info-panel h3 {
-                font-size: 9px;
-                letter-spacing: 2px;
+                font-size: 8px;
+                letter-spacing: 1px;
+                margin-bottom: 4px;
             }
 
             .info-panel .value {
-                font-size: 16px;
+                font-size: 14px;
             }
 
             #next-piece {
-                width: 70px;
-                height: 70px;
+                width: 50px;
+                height: 50px;
             }
 
             .controls-info {
@@ -274,7 +262,7 @@
             }
 
             .mobile-controls {
-                display: block;
+                display: flex;
             }
 
             canvas {
@@ -285,6 +273,10 @@
             .game-board {
                 border-width: 1px;
                 border-radius: 12px;
+            }
+
+            body {
+                padding: 0;
             }
         }
     </style>
@@ -329,17 +321,11 @@
     </div>
 
     <div class="mobile-controls">
-        <div class="mobile-controls-row">
-            <button class="mobile-btn action" id="mobile-rotate">↻</button>
-        </div>
-        <div class="mobile-controls-row">
             <button class="mobile-btn dpad" id="mobile-left">←</button>
+            <button class="mobile-btn action" id="mobile-rotate">↻</button>
             <button class="mobile-btn dpad" id="mobile-down">↓</button>
-            <button class="mobile-btn dpad" id="mobile-right">→</button>
-        </div>
-        <div class="mobile-controls-row">
             <button class="mobile-btn action" id="mobile-drop">⬇</button>
-        </div>
+            <button class="mobile-btn dpad" id="mobile-right">→</button>
     </div>
 
     <script>
