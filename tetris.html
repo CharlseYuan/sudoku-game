@@ -216,43 +216,30 @@
             border-color: rgba(99, 102, 241, 0.25);
         }
 
-        /* Desktop media query */
-        @media (min-width: 769px) {
-            .mobile-controls {
-                display: none;
-            }
-        }
-
-        /* Mobile media query */
+        /* Mobile layout */
         @media (max-width: 768px) {
             body {
-                overflow-x: hidden;
-                overflow-y: hidden;
-                padding: 0;
+                overflow: hidden;
             }
 
             .game-container {
                 flex-direction: column;
                 align-items: center;
+                gap: 16px;
                 padding: 8px;
-                gap: 6px;
-                min-height: 100vh;
                 justify-content: flex-start;
-                max-width: 100vw;
                 overflow: hidden;
             }
 
             .game-board {
                 max-width: 100%;
                 width: 100%;
-                border-width: 1px;
-                border-radius: 12px;
+                border-radius: 8px;
             }
 
             .game-board canvas {
                 width: 100%;
                 height: auto;
-                display: block;
             }
 
             .sidebar {
@@ -260,13 +247,10 @@
                 flex-wrap: nowrap;
                 justify-content: center;
                 align-items: center;
-                gap: 6px;
+                gap: 12px;
                 width: 100%;
-                max-width: 100%;
-                padding: 6px 4px;
+                padding: 8px;
                 overflow-x: auto;
-                overflow-y: hidden;
-                scrollbar-width: none;
             }
 
             .sidebar::-webkit-scrollbar {
@@ -274,29 +258,30 @@
             }
 
             .info-panel {
-                padding: 6px 10px;
+                padding: 10px 16px;
                 min-width: auto;
                 flex: 0 0 auto;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
+                gap: 4px;
             }
 
             .info-panel h3 {
-                font-size: 9px;
-                letter-spacing: 1px;
-                margin-bottom: 2px;
+                font-size: 10px;
+                letter-spacing: 1.5px;
+                margin: 0;
             }
 
             .info-panel .value {
-                font-size: 16px;
+                font-size: 18px;
                 font-weight: 600;
             }
 
             #next-piece {
-                width: 36px;
-                height: 36px;
+                width: 50px;
+                height: 50px;
                 margin: 0;
             }
 
@@ -310,9 +295,8 @@
                 justify-content: center;
                 align-items: center;
                 gap: 6px;
-                padding: 10px 4px;
+                padding: 12px 4px;
                 width: 100%;
-                max-width: 100%;
                 flex-wrap: nowrap;
             }
         }
