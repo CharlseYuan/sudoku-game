@@ -7,7 +7,6 @@
 | 游戏 | 地址 |
 |------|------|
 | 数独 | [index.html](https://charlseyuan.github.io/sudoku-game/) |
-| 俄罗斯方块 | [tetris.html](https://charlseyuan.github.io/sudoku-game/tetris.html) |
 | 贪吃蛇 | [snake.html](https://charlseyuan.github.io/sudoku-game/snake.html) |
 
 ### 数独
