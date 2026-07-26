@@ -30,6 +30,7 @@
             max-width: 800px;
             width: 100%;
             align-items: flex-start;
+            overflow: hidden;
         }
 
         .game-board {
@@ -216,99 +217,97 @@
         }
 
         .mobile-btn.action:active {
-            background: rgba(99, 102, 241, 0.25);
-        }
+            @media (max-width: 768px) {
+                        body {
+                            overflow-x: hidden;
+                            padding: 0;
+                        }
 
-        @media (max-width: 768px) {
-            .game-container {
-                flex-direction: column;
-                align-items: center;
-                padding: 6px;
-                gap: 8px;
-                min-height: 100vh;
-                justify-content: flex-start;
-            }
+                        .game-container {
+                            flex-direction: column;
+                            align-items: center;
+                            padding: 6px;
+                            gap: 8px;
+                            min-height: 100vh;
+                            justify-content: flex-start;
+                            max-width: 100vw;
+                            overflow-x: hidden;
+                        }
 
-            .game-board {
-                max-width: 100%;
-                width: 100%;
-                border-width: 1px;
-                border-radius: 12px;
-                /* Maintain 390:720 aspect ratio while fitting screen */
-                aspect-ratio: 390/720;
-            }
+                        .game-board {
+                            max-width: 100%;
+                            width: 100%;
+                            border-width: 1px;
+                            border-radius: 12px;
+                        }
 
-            .game-board canvas {
-                width: 100%;
-                height: 100%;
-                display: block;
-                object-fit: contain;
-            }
+                        .game-board canvas {
+                            width: 100%;
+                            height: auto;
+                            display: block;
+                        }
 
-            .sidebar {
-                flex-direction: row;
-                flex-wrap: nowrap;
-                justify-content: center;
-                align-items: center;
-                gap: 6px;
-                width: 100%;
-                padding: 0 8px;
-            }
+                        .sidebar {
+                            flex-direction: row;
+                            flex-wrap: wrap;
+                            justify-content: center;
+                            align-items: center;
+                            gap: 6px;
+                            width: 100%;
+                            max-width: 100%;
+                            padding: 0 4px;
+                        }
 
-            .info-panel {
-                padding: 6px 10px;
-                min-width: auto;
-                flex-shrink: 0;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
+                        .info-panel {
+                            padding: 6px 8px;
+                            min-width: auto;
+                            flex: 0 1 auto;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                        }
 
-            .info-panel h3 {
-                font-size: 9px;
-                letter-spacing: 1px;
-                margin-bottom: 2px;
-            }
+                        .info-panel h3 {
+                            font-size: 9px;
+                            letter-spacing: 1px;
+                            margin-bottom: 2px;
+                        }
 
-            .info-panel .value {
-                font-size: 14px;
-                font-weight: 600;
-            }
+                        .info-panel .value {
+                            font-size: 14px;
+                            font-weight: 600;
+                        }
 
-            #next-piece {
-                width: 40px;
-                height: 40px;
-                margin: 0;
-            }
+                        #next-piece {
+                            width: 40px;
+                            height: 40px;
+                            margin: 0;
+                        }
 
-            .controls-info {
-                display: none;
-            }
+                        .controls-info {
+                            display: none;
+                        }
 
-            .mobile-controls {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                gap: 6px;
-                padding: 8px;
-                width: 100%;
-                max-width: 100%;
-                flex-wrap: nowrap;
-                margin-top: auto;
-            }
+                        .mobile-controls {
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            align-items: center;
+                            gap: 6px;
+                            padding: 8px;
+                            width: 100%;
+                            max-width: 100%;
+                            flex-wrap: nowrap;
+                        }
 
-            .mobile-btn {
-                width: 48px;
-                height: 48px;
-                font-size: 18px;
-                border-radius: 12px;
-            }
-
-            body {
-                padding: 0;
-            }
+                        .mobile-btn {
+                            width: 48px;
+                            height: 48px;
+                            font-size: 18px;
+                            border-radius: 12px;
+                        }
+                    }
         }
     </style>
 </head>
