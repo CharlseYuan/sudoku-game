@@ -292,7 +292,7 @@
 <body>
     <div class="game-container">
         <div class="game-board">
-            <canvas id="game" width="300" height="600"></canvas>
+            <canvas id="game" width="300" height="840"></canvas>
             <div id="overlay" class="overlay">
                 <h2 id="overlay-title">俄罗斯方块</h2>
                 <p id="overlay-message">按开始键开始游戏</p>
@@ -345,7 +345,7 @@
     <script>
         // Game constants
         const COLS = 10;
-        const ROWS = 20;
+        const ROWS = 28;
         const BLOCK_SIZE = 30;
         const PREVIEW_BLOCK_SIZE = 20;
 
@@ -393,7 +393,7 @@
         let gameLoop = null;
         let isPlaying = false;
         let isPaused = false;
-        let dropInterval = 1000;
+        let dropInterval = 500;
         let lastDrop = 0;
 
         // Canvas elements
@@ -527,7 +527,7 @@
 
                 // Update level
                 level = Math.floor(lines / 10) + 1;
-                dropInterval = Math.max(100, 1000 - (level - 1) * 100);
+                dropInterval = Math.max(80, 600 - (level - 1) * 60);
 
                 updateUI();
             }
@@ -759,7 +759,7 @@
             score = 0;
             level = 1;
             lines = 0;
-            dropInterval = 1000;
+            dropInterval = 500;
             isPlaying = true;
             isPaused = false;
             lastDrop = performance.now();
