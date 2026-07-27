@@ -43,6 +43,12 @@
             max-width: 800px;
         }
 
+        .left-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
         .game-board {
             position: relative;
             background: rgba(0, 0, 0, 0.6);
@@ -150,15 +156,16 @@
 
         .buttons {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            flex-direction: row;
+            gap: 12px;
+            justify-content: center;
         }
 
         .btn {
-            padding: 14px 24px;
+            padding: 10px 20px;
             border: none;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
@@ -249,6 +256,10 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                align-items: flex-start;
+                padding-top: 10px;
+            }
             .game-container {
                 flex-direction: column;
                 padding: 15px;
@@ -293,13 +304,19 @@
 <body>
     <canvas id="particles-canvas"></canvas>
     <div class="game-container">
-        <div class="game-board">
-            <canvas id="tetris" width="680" height="510"></canvas>
-            <div id="overlay" class="overlay hidden">
-                <h2 id="overlay-title">GAME OVER</h2>
-                <p>Press R to restart</p>
-                <div class="final-score" id="final-score"></div>
-                <button class="btn btn-primary" id="restart-btn">Restart</button>
+        <div class="left-area">
+            <div class="game-board">
+                <canvas id="tetris" width="680" height="510"></canvas>
+                <div id="overlay" class="overlay hidden">
+                    <h2 id="overlay-title">GAME OVER</h2>
+                    <p>Press R to restart</p>
+                    <div class="final-score" id="final-score"></div>
+                    <button class="btn btn-primary" id="restart-btn">Restart</button>
+                </div>
+            </div>
+            <div class="buttons">
+                <button class="btn btn-primary" id="pause-btn">Pause (P)</button>
+                <button class="btn btn-secondary" id="restart-btn-desktop">Restart</button>
             </div>
         </div>
         <div class="side-panel">
@@ -327,10 +344,6 @@
                 <kbd>Space</kbd> Hard Drop<br>
                 <kbd>P</kbd> Pause<br>
                 <kbd>R</kbd> Restart
-            </div>
-            <div class="buttons">
-                <button class="btn btn-primary" id="pause-btn">Pause (P)</button>
-                <button class="btn btn-secondary" id="restart-btn-desktop">Restart</button>
             </div>
         </div>
     </div>
