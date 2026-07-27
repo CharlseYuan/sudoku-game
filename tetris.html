@@ -335,7 +335,7 @@
                 <button class="btn btn-secondary" id="restart-btn-desktop">Restart</button>
             </div>
             <div class="game-board">
-                <canvas id="tetris" width="680" height="510"></canvas>
+                <canvas id="tetris" width="500" height="625"></canvas>
                 <div id="overlay" class="overlay hidden">
                     <h2 id="overlay-title">GAME OVER</h2>
                     <p>Press R to restart</p>
@@ -385,17 +385,17 @@
     <script>
         // Game constants
         const COLS = 20;
-        const ROWS = 15;
-        const BLOCK_SIZE = 34;
+        const ROWS = 25;
+        const BLOCK_SIZE = 25;
         const COLORS = [
             null,
-            '#00f0f0', // I - cyan
-            '#f0f000', // O - yellow
-            '#a000f0', // T - purple
-            '#00f000', // S - green
-            '#f00000', // Z - red
-            '#0000f0', // J - blue
-            '#f0a000'  // L - orange
+            '#00ffff', // I - bright cyan
+            '#ffff00', // O - bright yellow
+            '#bf00ff', // T - bright purple
+            '#00ff00', // S - bright green
+            '#ff0055', // Z - bright red/pink
+            '#0000ff', // J - bright blue
+            '#ff8800'  // L - bright orange
         ];
 
         // Tetromino shapes
@@ -475,6 +475,10 @@
 
         // Draw a single block
         function drawBlock(ctx, x, y, color, size) {
+            // Set glow effect
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = COLORS[color];
+
             ctx.fillStyle = COLORS[color];
             ctx.fillRect(x * size, y * size, size, size);
 
@@ -485,6 +489,9 @@
             // Add shadow
             ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
             ctx.fillRect(x * size, (y + 1) * size - size * 0.1, size, size * 0.1);
+
+            // Reset shadow
+            ctx.shadowBlur = 0;
         }
 
         // Draw the board
