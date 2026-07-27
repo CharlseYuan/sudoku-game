@@ -45,8 +45,17 @@
 
         .left-area {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            align-items: center;
             gap: 15px;
+        }
+
+        .left-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 85px;
+            flex-shrink: 0;
         }
 
         .game-board {
@@ -154,11 +163,10 @@
             font-size: 11px;
         }
 
-        .buttons {
-            display: flex;
-            flex-direction: row;
-            gap: 12px;
-            justify-content: center;
+        .left-buttons .btn {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 12px;
         }
 
         .btn {
@@ -256,10 +264,27 @@
         }
 
         @media (max-width: 768px) {
+            .left-area {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .left-buttons {
+                flex-direction: row;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .left-buttons .btn {
+                width: auto;
+                flex: 1;
+            }
+
             body {
                 align-items: flex-start;
                 padding-top: 10px;
             }
+
             .game-container {
                 flex-direction: column;
                 padding: 15px;
@@ -305,6 +330,10 @@
     <canvas id="particles-canvas"></canvas>
     <div class="game-container">
         <div class="left-area">
+            <div class="left-buttons">
+                <button class="btn btn-primary" id="pause-btn">Pause</button>
+                <button class="btn btn-secondary" id="restart-btn-desktop">Restart</button>
+            </div>
             <div class="game-board">
                 <canvas id="tetris" width="680" height="510"></canvas>
                 <div id="overlay" class="overlay hidden">
@@ -313,10 +342,6 @@
                     <div class="final-score" id="final-score"></div>
                     <button class="btn btn-primary" id="restart-btn">Restart</button>
                 </div>
-            </div>
-            <div class="buttons">
-                <button class="btn btn-primary" id="pause-btn">Pause (P)</button>
-                <button class="btn btn-secondary" id="restart-btn-desktop">Restart</button>
             </div>
         </div>
         <div class="side-panel">
