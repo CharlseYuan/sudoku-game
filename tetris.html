@@ -389,13 +389,13 @@
         const BLOCK_SIZE = 25;
         const COLORS = [
             null,
-            '#00ffff', // I - bright cyan
-            '#ffff00', // O - bright yellow
-            '#bf00ff', // T - bright purple
-            '#00ff00', // S - bright green
-            '#ff0055', // Z - bright red/pink
-            '#0000ff', // J - bright blue
-            '#ff8800'  // L - bright orange
+            '#00e5ff', // I - bright cyan
+            '#ffea00', // O - bright yellow
+            '#d500f9', // T - bright purple
+            '#00e676', // S - bright green
+            '#ff1744', // Z - bright red
+            '#2979ff', // J - bright blue
+            '#ff9100'  // L - bright orange
         ];
 
         // Tetromino shapes
@@ -473,25 +473,93 @@
             return createPiece(type);
         }
 
-        // Draw a single block
+        // Helper function to draw rounded rectangles
+        function drawRoundedRect(ctx, x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+        }
+
+        // Draw a single jelly/gummy candy block
         function drawBlock(ctx, x, y, color, size) {
-            // Set glow effect
-            ctx.shadowBlur = 8;
-            ctx.shadowColor = COLORS[color];
+            const padding = 1; // Small gap between blocks
+            const drawSize = size - padding * 2;
+            const radius = 3; // Rounded corners
 
-            ctx.fillStyle = COLORS[color];
-            ctx.fillRect(x * size, y * size, size, size);
+            const posX = x * size + padding;
+            const posY = y * size + padding;
 
-            // Add highlight
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.fillRect(x * size, y * size, size, size * 0.1);
+            // Get candy color
+            const mainColor = COLORS[color];
+            const baseColor = mainColor;
 
-            // Add shadow
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-            ctx.fillRect(x * size, (y + 1) * size - size * 0.1, size, size * 0.1);
+            // Create gradient for 3D jelly effect
+            const gradient = ctx.createLinearGradient(posX, posY, posX + drawSize, posY + drawSize);
 
-            // Reset shadow
-            ctx.shadowBlur = 0;
+            // Top-left highlight (bright)
+            gradient.addColorStop(0, lightenColor(baseColor, 60));
+            gradient.addColorStop(0.3, lightenColor(baseColor, 30));
+            gradient.addColorStop(0.7, baseColor);
+            gradient.addColorStop(1, darkenColor(baseColor, 30));
+
+            // Draw rounded rectangle
+            ctx.fillStyle = gradient;
+            drawRoundedRect(ctx, posX, posY, drawSize, drawSize, radius);
+            ctx.fill();
+
+            // Bright highlight reflection on top-left
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(posX + radius + 2, posY + radius + 2, radius * 0.8, Math.PI * 0.5, Math.PI * 1.2);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.stroke();
+            ctx.restore();
+
+            // Inner shadow on bottom-right for depth
+            ctx.save();
+            ctx.beginPath();
+            drawRoundedRect(ctx, posX + radius + 1, posY + radius + 1, drawSize - radius * 2 - 2, drawSize - radius * 2 - 2, radius - 1);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.restore();
+
+            // Add subtle shine
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(posX + radius + 3, posY + radius + 3, radius * 0.5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Helper function to lighten a color
+        function lightenColor(color, percent) {
+            const num = parseInt(color.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.min(255, (num >> 16) + amt);
+            const G = Math.min(255, ((num >> 8) & 0x00FF) + amt);
+            const B = Math.min(255, (num & 0x0000FF) + amt);
+            return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+        }
+
+        // Helper function to darken a color
+        function darkenColor(color, percent) {
+            const num = parseInt(color.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.max(0, (num >> 16) - amt);
+            const G = Math.max(0, ((num >> 8) & 0x00FF) - amt);
+            const B = Math.max(0, (num & 0x0000FF) - amt);
+            return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
         }
 
         // Draw the board
@@ -969,13 +1037,37 @@
         window.addEventListener('resize', () => {
             particlesCanvas.width = window.innerWidth;
             particlesCanvas.height = window.innerHeight;
+            scale();
         });
+
+        // Scale game container for mobile devices
+        function scale() {
+            const gameContainer = document.querySelector('.game-container');
+            const gameBoard = document.querySelector('.game-board');
+            const leftArea = document.querySelector('.left-area');
+            const maxWidth = window.innerWidth - 40; // 40px padding
+
+            // Check if container fits on mobile/tablet
+            if (maxWidth <= 800 && window.innerWidth <= 768) {
+                // Calculate scale factor
+                const containerWidth = gameContainer.offsetWidth;
+                const scale = Math.min(1, maxWidth / containerWidth);
+
+                if (scale < 1) {
+                    gameContainer.style.transform = `scale(${scale})`;
+                    gameContainer.style.transformOrigin = 'top center';
+                }
+            } else {
+                gameContainer.style.transform = 'none';
+            }
+        }
 
         // Initialize
         initParticles();
         animateParticles();
         createBoard();
         drawBoard();
+        scale();
     </script>
 </body>
 </html>
