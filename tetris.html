@@ -595,8 +595,8 @@
 
             if (!nextPiece) return;
 
-            const offsetX = (nextCanvas.width / BLOCK_SIZE - nextPiece.shape[0].length) / 2;
-            const offsetY = (nextCanvas.height / BLOCK_SIZE - nextPiece.shape.length) / 2;
+            const offsetX = (nextCanvas.width / (BLOCK_SIZE / 3) - nextPiece.shape[0].length) / 2;
+            const offsetY = (nextCanvas.height / (BLOCK_SIZE / 3) - nextPiece.shape.length) / 2;
 
             for (let y = 0; y < nextPiece.shape.length; y++) {
                 for (let x = 0; x < nextPiece.shape[y].length; x++) {
