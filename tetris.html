@@ -12,7 +12,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, #0a0a1a 0%, #0d0d2a 50%, #0a0a2a 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -20,72 +20,132 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* Particle background */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
         .game-container {
             display: flex;
-            gap: 20px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
+            gap: 25px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 200, 255, 0.1);
+            max-width: 800px;
         }
 
         .game-board {
             position: relative;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             border: 3px solid #4a5568;
-            border-radius: 5px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.2), inset 0 0 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
         }
 
-        canvas#tetris {
+        .game-board canvas {
             display: block;
+            flex-grow: 1;
+        }
+
+        .game-board .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .game-board .overlay.hidden {
+            display: none;
+        }
+
+        .game-board .overlay h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: #e53e3e;
+            text-shadow: 0 0 20px rgba(229, 62, 62, 0.5);
+        }
+
+        .game-board .overlay p {
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: #a0aec0;
+        }
+
+        .game-board .overlay .final-score {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .game-board .overlay .btn {
+            margin-top: 15px;
         }
 
         .side-panel {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            min-width: 150px;
+            gap: 15px;
+            min-width: 160px;
+            flex-shrink: 0;
         }
 
         .info-box {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 12px;
             border-radius: 8px;
             border: 1px solid #4a5568;
         }
 
         .info-box h3 {
-            font-size: 14px;
+            font-size: 13px;
             color: #a0aec0;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .info-box .value {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: bold;
             color: #fff;
         }
 
-        canvas#next {
+        .info-box canvas {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 5px;
         }
 
-        .controls {
-            font-size: 12px;
-            color: #a0aec0;
-            line-height: 1.8;
+        .info-box.controls {
+            line-height: 2;
         }
 
-        .controls kbd {
+        .info-box.controls kbd {
             background: #4a5568;
-            padding: 2px 6px;
-            border-radius: 3px;
+            padding: 4px 8px;
+            border-radius: 4px;
             font-family: monospace;
+            font-size: 11px;
         }
 
         .buttons {
@@ -95,78 +155,46 @@
         }
 
         .btn {
-            padding: 12px 20px;
+            padding: 14px 24px;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .btn-primary {
-            background: #e53e3e;
+            background: linear-gradient(135deg, #e53e3e, #c53030);
             color: #fff;
+            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.4);
         }
 
         .btn-primary:hover {
-            background: #c53030;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #fc8181, #e53e3e);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(229, 62, 62, 0.6);
         }
 
         .btn-secondary {
-            background: #4a5568;
+            background: linear-gradient(135deg, #4a5568, #2d3748);
             color: #fff;
+            box-shadow: 0 4px 15px rgba(74, 85, 104, 0.4);
         }
 
         .btn-secondary:hover {
-            background: #2d3748;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #718096, #4a5568);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(74, 85, 104, 0.6);
         }
 
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 5px;
-            z-index: 10;
-        }
-
-        .overlay.hidden {
-            display: none;
-        }
-
-        .overlay h2 {
-            font-size: 36px;
-            margin-bottom: 10px;
-            color: #e53e3e;
-        }
-
-        .overlay p {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #a0aec0;
-        }
-
-        .overlay .final-score {
-            font-size: 28px;
-            color: #fff;
-            margin-bottom: 20px;
+            box-shadow: none;
         }
 
         /* Mobile controls */
@@ -176,8 +204,8 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
             z-index: 100;
         }
 
@@ -186,43 +214,47 @@
         }
 
         .mobile-btn {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            width: 65px;
+            height: 65px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             color: #fff;
-            font-size: 24px;
+            font-size: 26px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            transition: all 0.2s;
         }
 
         .mobile-btn:active {
             background: rgba(255, 255, 255, 0.3);
+            transform: scale(0.95);
         }
 
         .mobile-controls .left, .mobile-controls .right {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .mobile-controls .rotate-btn {
-            margin: 0 20px;
+            margin: 0 25px;
         }
 
         .mobile-controls .down-btn {
-            width: 80px;
+            width: 90px;
         }
 
         @media (max-width: 768px) {
             .game-container {
                 flex-direction: column;
-                padding: 10px;
-                gap: 10px;
+                padding: 15px;
+                gap: 15px;
+                width: 100%;
+                max-width: none;
             }
 
             .side-panel {
@@ -233,20 +265,20 @@
             }
 
             .info-box {
-                padding: 10px;
+                padding: 8px 12px;
                 flex: 1;
-                min-width: 100px;
+                min-width: 90px;
             }
 
             .info-box .value {
-                font-size: 18px;
+                font-size: 20px;
             }
 
             canvas#next {
                 display: none;
             }
 
-            .controls {
+            .info-box.controls {
                 display: none;
             }
 
@@ -259,9 +291,10 @@
     </style>
 </head>
 <body>
+    <canvas id="particles-canvas"></canvas>
     <div class="game-container">
         <div class="game-board">
-            <canvas id="tetris" width="300" height="600"></canvas>
+            <canvas id="tetris" width="340" height="680"></canvas>
             <div id="overlay" class="overlay hidden">
                 <h2 id="overlay-title">GAME OVER</h2>
                 <p>Press R to restart</p>
@@ -272,7 +305,7 @@
         <div class="side-panel">
             <div class="info-box">
                 <h3>Next</h3>
-                <canvas id="next" width="120" height="120"></canvas>
+                <canvas id="next" width="200" height="200"></canvas>
             </div>
             <div class="info-box">
                 <h3>Score</h3>
@@ -315,7 +348,7 @@
         // Game constants
         const COLS = 10;
         const ROWS = 20;
-        const BLOCK_SIZE = 30;
+        const BLOCK_SIZE = 34;
         const COLORS = [
             null,
             '#00f0f0', // I - cyan
@@ -357,6 +390,8 @@
         const ctx = canvas.getContext('2d');
         const nextCanvas = document.getElementById('next');
         const nextCtx = nextCanvas.getContext('2d');
+        const particlesCanvas = document.getElementById('particles-canvas');
+        const particlesCtx = particlesCanvas.getContext('2d');
 
         // UI elements
         const scoreEl = document.getElementById('score');
@@ -374,6 +409,10 @@
         let touchStartX = 0;
         let touchStartY = 0;
         let touchStartBlock = null;
+
+        // Mouse position for particles
+        let mouseX = 0;
+        let mouseY = 0;
 
         // Initialize board
         function createBoard() {
@@ -412,7 +451,7 @@
 
         // Draw the board
         function drawBoard() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             for (let y = 0; y < ROWS; y++) {
@@ -786,7 +825,110 @@
             mobileControls.classList.remove('hidden');
         }
 
+        // Mouse tracking for particles
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Particle system
+        const PARTICLE_COUNT = 100;
+        const particles = [];
+        const particleColors = ['rgba(0, 200, 255, 0.3)', 'rgba(100, 100, 255, 0.3)', 'rgba(150, 50, 255, 0.3)'];
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * particlesCanvas.width;
+                this.y = Math.random() * particlesCanvas.height;
+                this.size = Math.random() * 3 + 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.color = particleColors[Math.floor(Math.random() * particleColors.length)];
+                this.alpha = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                // Mouse interaction
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 150) {
+                    const force = (150 - distance) / 150;
+                    this.speedX -= (dx / distance) * force * 0.1;
+                    this.speedY -= (dy / distance) * force * 0.1;
+                }
+
+                // Move
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Friction
+                this.speedX *= 0.99;
+                this.speedY *= 0.99;
+
+                // Wrap around screen
+                if (this.x < 0) this.x = particlesCanvas.width;
+                if (this.x > particlesCanvas.width) this.x = 0;
+                if (this.y < 0) this.y = particlesCanvas.height;
+                if (this.y > particlesCanvas.height) this.y = 0;
+            }
+
+            draw() {
+                particlesCtx.beginPath();
+                particlesCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                particlesCtx.fillStyle = this.color;
+                particlesCtx.globalAlpha = this.alpha;
+                particlesCtx.fill();
+                particlesCtx.globalAlpha = 1;
+            }
+        }
+
+        // Initialize particles
+        function initParticles() {
+            particlesCanvas.width = window.innerWidth;
+            particlesCanvas.height = window.innerHeight;
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        // Animation loop for particles
+        function animateParticles() {
+            particlesCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Handle page visibility for pausing particles
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Page is hidden, can pause particles
+            } else {
+                // Page is visible, resume
+                lastTime = performance.now();
+            }
+        });
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            particlesCanvas.width = window.innerWidth;
+            particlesCanvas.height = window.innerHeight;
+        });
+
         // Initialize
+        initParticles();
+        animateParticles();
         createBoard();
         drawBoard();
     </script>
