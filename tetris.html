@@ -45,17 +45,9 @@
 
         .left-area {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             align-items: center;
             gap: 15px;
-        }
-
-        .left-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 85px;
-            flex-shrink: 0;
         }
 
         .game-board {
@@ -163,7 +155,14 @@
             font-size: 11px;
         }
 
-        .left-buttons .btn {
+        .side-panel .left-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .side-panel .left-buttons .btn {
             width: 100%;
             padding: 10px 15px;
             font-size: 12px;
@@ -269,13 +268,13 @@
                 align-items: center;
             }
 
-            .left-buttons {
+            .side-panel .left-buttons {
                 flex-direction: row;
                 width: 100%;
                 justify-content: center;
             }
 
-            .left-buttons .btn {
+            .side-panel .left-buttons .btn {
                 width: auto;
                 flex: 1;
             }
@@ -330,10 +329,6 @@
     <canvas id="particles-canvas"></canvas>
     <div class="game-container">
         <div class="left-area">
-            <div class="left-buttons">
-                <button class="btn btn-primary" id="pause-btn">Pause</button>
-                <button class="btn btn-secondary" id="restart-btn-desktop">Restart</button>
-            </div>
             <div class="game-board">
                 <canvas id="tetris" width="500" height="625"></canvas>
                 <div id="overlay" class="overlay hidden">
@@ -347,7 +342,7 @@
         <div class="side-panel">
             <div class="info-box">
                 <h3>Next</h3>
-                <canvas id="next" width="200" height="200"></canvas>
+                <canvas id="next" width="140" height="140"></canvas>
             </div>
             <div class="info-box">
                 <h3>Score</h3>
@@ -369,6 +364,10 @@
                 <kbd>Space</kbd> Hard Drop<br>
                 <kbd>P</kbd> Pause<br>
                 <kbd>R</kbd> Restart
+            </div>
+            <div class="left-buttons">
+                <button class="btn btn-primary" id="pause-btn">Pause</button>
+                <button class="btn btn-secondary" id="restart-btn-desktop">Restart</button>
             </div>
         </div>
     </div>
